@@ -218,3 +218,14 @@ etch end x=1 y=-1.6
 # Salvamento e exibição da estrutura final do Passo 17
 structure outfile=pmos_Passo17.str
 tonyplot pmos_Passo17.str
+
+# ==============================================================================
+# ETAPA FINAL: ESPELHAMENTO DA ESTRUTURA
+# ==============================================================================
+# Espelha a malha em torno da posição x especificada (ex: eixo central da porta)
+struct mirror right
+
+
+#salva a estrutura completa para o Atlas
+structure outfile=pmos_final_completo.str
+tonyplot pmos_final_completo.str
