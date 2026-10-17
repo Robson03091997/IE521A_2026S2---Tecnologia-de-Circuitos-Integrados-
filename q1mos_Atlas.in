@@ -1,0 +1,33 @@
+
+# Inicializa o simulador de dispositivos ATLAS
+go atlas
+
+# Carrega a estrutura gerada pelo Athena
+mesh infile=pmos_Passo17.str
+
+# Define os contatos elétricos do transistor com base nas regiões metálicas abertas
+# #1=gate
+electrode name=gate number=1 x.min=1 x.max=6 y.min=-1.500 y.max=-0.420
+#
+contact   name=gate neutral
+
+electrode name=source x=0.5 y=-0.4
+electrode name=drain  x=6.5 y=-0.4
+electrode name=substrate back
+
+# Define modelos físicos fundamentais (recombinação, mobilidade dependente de campo, etc.)
+models conmob fldmob srh
+
+# Simulação da curva Id vs Vgs (ex: com Vds = -0.1V)
+method newton
+solve init
+solve vds=-0.1
+
+log outfile=iv_g_vds01.log
+solve vgs=0 vgs.final=-2.0 vsteps=40
+log off
+
+# Extração automática da Tensão de Limiar (Vth) por extrapolação da máxima inclinação
+extract name="vth" (xintercept(maxslope(curve(v("gate"), i("drain")))))
+
+#
